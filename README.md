@@ -1,6 +1,6 @@
 # solidpb
 
-A framework for creating progressive webapplications using solidjs and pocketbase
+A framework for creating progressive web applications using solidjs and pocketbase
 
 After cloning, you can paste in your app name into the following files:
 
@@ -15,7 +15,38 @@ TODO:
 - generate types automatically from custom hook on schema change
 - public folder with default icons, fonts, manifest.json for pwa.
 - role-based routing guard?
-- errorboundary? (or does the toaster handle it?)
 - add app 'update' command like pocketbase
-- setup storybook for ui development??
-- create one dark and one light theme
+
+TODO components:
+
+- checkbox
+- switch (toggle)
+- dateinput
+- numberinput
+- textarea
+- select (dropdown)
+- tagarea
+- tooltip
+- dropdown menu
+- skeleton (for loading, add relevant css animation)
+- fileinput
+- searchinput
+- toast/notification
+- themeswitch (for light, dark mode)
+- relationpicker (for FKs)
+- image
+
+TODO views:
+
+- app (layout with navigation)
+- header
+- footer
+- loadfullscreen
+- card
+- container
+- modal
+- list (will have a bunch of components in the one file maybe, including a list searchbox, filters maybe)
+- form
+- tabs
+- dashboard
+- settings
