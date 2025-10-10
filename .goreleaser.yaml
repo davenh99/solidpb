@@ -1,0 +1,52 @@
+version: 2
+
+project_name: app
+
+dist: .builds
+
+before:
+  hooks:
+    - npm --prefix=./ui ci
+    - npm --prefix=./ui run build
+    - go mod tidy
+
+builds:
+  - id: app_build
+    main: ./main.go
+    binary: app
+    ldflags:
+      - -s -w -X main.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+release:
+  draft: true
+
+archives:
+  - id: app_archive
+    ids: [app_build]
+    formats: zip
+    files:
+      - src: dist/pb_migrations/*
+        dst: pb_migrations/
+      - LICENSE.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^chore:"

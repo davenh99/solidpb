@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root {
+  font-family: "Ubuntu", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  margin: 0;
+}
+
+@theme {
+  /* light */
+  --color-text-light-primary: #111827;
+  --color-text-light-secondary: #4b5563;
+  --color-light-background: #ffffff;
+  --color-light-surface: #f8f9fa;
+  --color-light-primary: #3b82f6;
+  --color-light-success: #10b981;
+  --color-light-warning: #f59e0b;
+  --color-light-error: #ef4444;
+  --color-light-neutral: #6b7280;
+  --color-light-muted: #e5e7eb;
+  --color-light-ring: #112299;
+
+  /* dark */
+  --color-text-dark-primary: #f9fafb;
+  --color-text-dark-secondary: #d1d5db;
+  --color-dark-background: #1f2937;
+  --color-dark-surface: #111827;
+  --color-dark-primary: #3b82f6;
+  --color-dark-success: #10b981;
+  --color-dark-warning: #f59e0b;
+  --color-dark-error: #f87171;
+  --color-dark-neutral: #6b7280;
+  --color-dark-muted: #374151;
+  --color-dark-ring: #112299;
+}
