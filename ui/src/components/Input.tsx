@@ -9,8 +9,9 @@ type InputProps<T extends ValidComponent = "input"> = PolymorphicProps<T, TextFi
 
 interface ExtraProps {
   label?: string;
-  variant?: "bordered" | "none";
   labelPosition?: "inline" | "above";
+  variant?: "bordered" | "none";
+  size?: "sm" | "md";
   inputProps?: InputProps;
   saveFunc?: (v: string) => Promise<any>;
 }
@@ -35,7 +36,7 @@ const inputField = tv({
   base: "w-full rounded-sm outline-none px-2 py-1",
   variants: {
     variant: {
-      bordered: "border-2 border-ash-gray-400",
+      bordered: "border-2 border-black",
       none: "",
     },
   },

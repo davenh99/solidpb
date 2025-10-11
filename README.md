@@ -13,17 +13,17 @@ TODO:
 
 - custom pb hook for tracking changes to selected record fields. (changelog model)
 - generate types automatically from custom hook on schema change
-- public folder with default icons, fonts, manifest.json for pwa.
+- public folder with default icons, fonts.
 - role-based routing guard?
 - add app 'update' command like pocketbase
 
 TODO components:
 
-- checkbox
-- switch (toggle)
 - dateinput
-- numberinput
 - textarea
+- text
+- heading
+- link
 - select (dropdown)
 - tagarea
 - tooltip
@@ -36,12 +36,18 @@ TODO components:
 - relationpicker (for FKs)
 - image
 
+Components half done (need variants, dark mode styling)
+
+- Checkbox
+- Input
+- NumberInput
+- Switch
+
 TODO views:
 
 - app (layout with navigation)
 - header
 - footer
-- loadfullscreen
 - card
 - container
 - modal
