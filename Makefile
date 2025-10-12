@@ -32,3 +32,6 @@ serve-dev:
 	(make ui-dev)
 
 dev: serve-dev
+
+types: build
+	@cd dist; ./$(VITE_APP_NAME) gen-types

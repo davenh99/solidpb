@@ -11,5 +11,6 @@
     "noEmit": true,
     "isolatedModules": true,
     "strict": true
-  }
+  },
+  "include": ["src", "types"]
 }

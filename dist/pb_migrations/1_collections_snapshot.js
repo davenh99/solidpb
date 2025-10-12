@@ -730,7 +730,7 @@ migrate(
           enabled: false,
           rule: "",
         },
-        name: "users",
+        name: "user",
         oauth2: {
           enabled: false,
           mappedFields: {

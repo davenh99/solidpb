@@ -12,7 +12,6 @@ After cloning, you can paste in your app name into the following files:
 TODO:
 
 - custom pb hook for tracking changes to selected record fields. (changelog model)
-- generate types automatically from custom hook on schema change
 - role-based routing guard?
 - add app 'update' command like pocketbase
 

@@ -3,6 +3,7 @@ package main
 import (
 	"app/utils"
 	"embed"
+	"fmt"
 	"io/fs"
 	"log"
 
@@ -12,6 +13,7 @@ import (
 	"github.com/pocketbase/pocketbase/plugins/jsvm"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
+	"github.com/spf13/cobra"
 )
 
 var Version = "dev"
@@ -37,6 +39,25 @@ func main() {
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		TemplateLang: migratecmd.TemplateLangJS,
 		Automigrate:  env == "development",
+	})
+
+	app.RootCmd.AddCommand(&cobra.Command{
+		Use: "gen-types",
+		Run: func(cmd *cobra.Command, args []string) {
+			err := utils.GenerateTypes(app)
+			if err != nil {
+				fmt.Printf("error: %v\n", err)
+			}
+		},
+	})
+
+	app.OnCollectionAfterUpdateSuccess().BindFunc(func(e *core.CollectionEvent) error {
+		err := utils.GenerateTypes(app)
+		if err != nil {
+			return err
+		}
+
+		return e.Next()
 	})
 
 	app.OnServe().Bind(&hook.Handler[*core.ServeEvent]{
