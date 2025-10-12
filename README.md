@@ -14,6 +14,7 @@ TODO:
 - custom pb hook for tracking changes to selected record fields. (changelog model)
 - role-based routing guard?
 - add app 'update' command like pocketbase
+- add nullable to generated types
 
 TODO components:
 
