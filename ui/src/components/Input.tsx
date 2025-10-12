@@ -9,7 +9,6 @@ type InputProps<T extends ValidComponent = "input"> = PolymorphicProps<T, TextFi
 
 interface ExtraProps {
   label?: string;
-  labelPosition?: "inline" | "above";
   variant?: "bordered" | "none";
   size?: "sm" | "md";
   inputProps?: InputProps;
@@ -51,7 +50,6 @@ export const Input: Component<InputRootProps> = (props) => {
     "class",
     "variant",
     "inputProps",
-    "labelPosition",
     "saveFunc",
     "onChange",
   ]);
@@ -64,11 +62,7 @@ export const Input: Component<InputRootProps> = (props) => {
   };
 
   return (
-    <TextField
-      class={inputRoot({ labelPosition: local.labelPosition, class: local.class })}
-      {...others}
-      onChange={handleChange}
-    >
+    <TextField class={inputRoot({ class: local.class })} {...others} onChange={handleChange}>
       <Show when={local.label}>
         <TextField.Label>{local.label}</TextField.Label>
       </Show>

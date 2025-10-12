@@ -7,6 +7,7 @@ endif
 build:
 	@echo "Building $(VITE_APP_NAME)..."
 	@CGO_ENABLED=0 go build -o ./dist/$(VITE_APP_NAME) ./main.go
+	@echo "Done"
 
 test:
 	@go test -v -coverprofile=coverage.out ./...
