@@ -83,14 +83,22 @@ func toTypeScriptType(f core.Field) string {
 		return "string"
 	case "select":
 		if sf, ok := f.(*core.SelectField); ok {
+			res := ""
 			values := sf.Values
+
 			if len(values) > 0 {
 				var quoted []string
 				for _, v := range values {
 					quoted = append(quoted, fmt.Sprintf("\"%s\"", v))
 				}
-				return strings.Join(quoted, " | ")
+				res = strings.Join(quoted, " | ")
 			}
+
+			if sf.MaxSelect > 1 {
+				res = fmt.Sprintf("(%s)[]", res)
+			}
+
+			return res
 		}
 		return "string"
 	case "number":
