@@ -31,24 +31,45 @@ func GenerateTypes(app *pocketbase.PocketBase) error {
 	}
 	defer f.Close()
 
-	f.WriteString("/*This file was automatically generated, changes will be overwritten.*/\n\n")
+	f.WriteString("/* This file was automatically generated, changes will be overwritten. */\n\n")
 
 	for _, collection := range collections {
-		if collection.Name[0] == '_' {
-			// loosely skip system collections
+		if collection.System {
 			continue
 		}
-		fmt.Fprintf(f, "/* Collection type: %s */\n", collection.Type)
-		fmt.Fprintf(f, "export interface %s {\n", capitalise(collection.Name))
-		for _, field := range collection.Fields {
-			if !field.GetHidden() {
-				fmt.Fprintf(f, "  %s: %s; // %s\n", field.GetName(), toTypeScriptType(field), field.Type())
-			}
-		}
-		fmt.Fprint(f, "}\n\n")
+
+		printBaseType(f, collection)
+		printRecordType(f, collection)
 	}
 
 	return nil
+}
+
+func printBaseType(f *os.File, collection *core.Collection) {
+	fmt.Fprintf(f, "export interface %s {\n", capitalise(collection.Name))
+
+	for _, field := range collection.Fields {
+		if field.Type() == "autodate" || field.GetName() == "id" || field.GetHidden() {
+			continue
+		}
+		fmt.Fprintf(f, "  %s%s;\n", field.GetName(), toTypeScriptType(field))
+	}
+
+	fmt.Fprint(f, "}\n\n")
+}
+
+func printRecordType(f *os.File, collection *core.Collection) {
+	fmt.Fprintf(f, "/* Collection type: %s */\n", collection.Type)
+	fmt.Fprintf(f, "export interface %sRecord {\n", capitalise(collection.Name))
+
+	for _, field := range collection.Fields {
+		if field.GetHidden() {
+			continue
+		}
+		fmt.Fprintf(f, "  %s%s; // %s\n", field.GetName(), toTypeScriptType(field), field.Type())
+	}
+
+	fmt.Fprint(f, "}\n\n")
 }
 
 func capitalise(s string) string {
@@ -79,8 +100,57 @@ func projectRoot() (string, error) {
 
 func toTypeScriptType(f core.Field) string {
 	switch f.Type() {
-	case "password", "text", "email", "relation", "autodate", "date", "url", "file":
-		return "string"
+	case "password":
+		if sf, ok := f.(*core.PasswordField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "text":
+		if sf, ok := f.(*core.TextField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "email":
+		if sf, ok := f.(*core.EmailField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "relation":
+		if sf, ok := f.(*core.RelationField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "autodate":
+		return ": string"
+	case "date":
+		if sf, ok := f.(*core.DateField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "url":
+		if sf, ok := f.(*core.FileField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
+	case "file":
+		if sf, ok := f.(*core.FileField); ok {
+			if sf.Required {
+				return ": string"
+			}
+		}
+		return "?: string"
 	case "select":
 		if sf, ok := f.(*core.SelectField); ok {
 			res := ""
@@ -97,17 +167,35 @@ func toTypeScriptType(f core.Field) string {
 			if sf.MaxSelect > 1 {
 				res = fmt.Sprintf("(%s)[]", res)
 			}
-
-			return res
+			if sf.Required {
+				return fmt.Sprintf(": %s", res)
+			} else {
+				return fmt.Sprintf("?: %s", res)
+			}
 		}
-		return "string"
+		return "?: string"
 	case "number":
-		return "number"
+		if sf, ok := f.(*core.NumberField); ok {
+			if sf.Required {
+				return ": number"
+			}
+		}
+		return "?: number"
 	case "bool":
-		return "boolean"
+		if sf, ok := f.(*core.BoolField); ok {
+			if sf.Required {
+				return ": boolean"
+			}
+		}
+		return "?: boolean"
 	case "json":
-		return "any"
+		if sf, ok := f.(*core.JSONField); ok {
+			if sf.Required {
+				return ": any"
+			}
+		}
+		return "?: any"
 	default:
-		return "unknown"
+		return "?: unknown"
 	}
 }

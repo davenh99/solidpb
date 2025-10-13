@@ -866,7 +866,7 @@ migrate(
             maxSelect: 1,
             name: "changeType",
             presentable: false,
-            required: false,
+            required: true,
             system: false,
             type: "select",
             values: ["create", "update", "delete"],
