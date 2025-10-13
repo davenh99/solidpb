@@ -14,7 +14,6 @@ TODO:
 - custom pb hook for tracking changes to selected record fields. (changelog model, maybe add trackedFields field to each collection on create?) also, the hook should only fire once per record (obvs, unlike odoo), regardless of how many fields triggered it.
 - role-based routing guard?
 - add app 'update' command like pocketbase
-- add nullable to generated types
 
 TODO components:
 

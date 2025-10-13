@@ -46,3 +46,41 @@ export interface ChangelogRecord {
   updated: string; // autodate
 }
 
+export interface Role {
+  name: string;
+  permissions?: string[];
+}
+
+/* Collection type: base */
+export interface RoleRecord {
+  id: string; // text
+  name: string; // text
+  permissions?: string[]; // relation
+  created: string; // autodate
+  updated: string; // autodate
+}
+
+export interface Permission {
+  name: string;
+  collections: any;
+  canView?: boolean;
+  canList?: boolean;
+  canCreate?: boolean;
+  canUpdate?: boolean;
+  canDelete?: boolean;
+}
+
+/* Collection type: base */
+export interface PermissionRecord {
+  id: string; // text
+  name: string; // text
+  collections: any; // json
+  canView?: boolean; // bool
+  canList?: boolean; // bool
+  canCreate?: boolean; // bool
+  canUpdate?: boolean; // bool
+  canDelete?: boolean; // bool
+  created: string; // autodate
+  updated: string; // autodate
+}
+

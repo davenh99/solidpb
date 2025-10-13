@@ -123,9 +123,15 @@ func toTypeScriptType(f core.Field) string {
 		return "?: string"
 	case "relation":
 		if sf, ok := f.(*core.RelationField); ok {
-			if sf.Required {
-				return ": string"
+			res := ""
+			if !sf.Required {
+				res += "?"
 			}
+			res += ": string"
+			if sf.MaxSelect > 1 {
+				res += "[]"
+			}
+			return res
 		}
 		return "?: string"
 	case "autodate":
