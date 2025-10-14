@@ -33,43 +33,45 @@ func GenerateTypes(app *pocketbase.PocketBase) error {
 
 	f.WriteString("/* This file was automatically generated, changes will be overwritten. */\n\n")
 
-	for _, collection := range collections {
-		if collection.System {
-			continue
-		}
+	printBaseType(f)
 
-		printBaseType(f, collection)
-		printRecordType(f, collection)
+	for _, collection := range collections {
+		if !collection.System {
+			printCollectionTypes(f, collection)
+		}
 	}
 
 	return nil
 }
 
-func printBaseType(f *os.File, collection *core.Collection) {
-	fmt.Fprintf(f, "export interface %s {\n", capitalise(collection.Name))
+func printBaseType(f *os.File) {
+	fmt.Fprint(f, "export interface BaseRecord {\n")
 
-	for _, field := range collection.Fields {
-		if field.Type() == "autodate" || field.GetName() == "id" || field.GetHidden() {
-			continue
-		}
-		fmt.Fprintf(f, "  %s%s;\n", field.GetName(), toTypeScriptType(field))
+	baseFields := []string{"id", "collectionName", "collectionId", "created", "updated"}
+
+	for _, field := range baseFields {
+		fmt.Fprintf(f, "  %s: string;\n", field)
 	}
 
 	fmt.Fprint(f, "}\n\n")
 }
 
-func printRecordType(f *os.File, collection *core.Collection) {
+func printCollectionTypes(f *os.File, collection *core.Collection) {
+	typeName := capitalise(collection.Name)
+
 	fmt.Fprintf(f, "/* Collection type: %s */\n", collection.Type)
-	fmt.Fprintf(f, "export interface %sRecord {\n", capitalise(collection.Name))
+	fmt.Fprintf(f, "export interface %s {\n", typeName)
 
 	for _, field := range collection.Fields {
-		if field.GetHidden() {
+		if field.Type() == "autodate" || field.GetName() == "id" || field.GetHidden() {
 			continue
 		}
 		fmt.Fprintf(f, "  %s%s; // %s\n", field.GetName(), toTypeScriptType(field), field.Type())
 	}
 
 	fmt.Fprint(f, "}\n\n")
+
+	fmt.Fprintf(f, "export type %sRecord = %s & BaseRecord;\n\n", typeName, typeName)
 }
 
 func capitalise(s string) string {
