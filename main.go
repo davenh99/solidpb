@@ -26,7 +26,6 @@ func main() {
 	env := utils.Env.Env
 	app := pocketbase.New()
 
-	// migrate command (with js templates)
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Automigrate: env == "development",
 	})
