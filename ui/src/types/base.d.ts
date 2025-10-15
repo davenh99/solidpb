@@ -9,7 +9,7 @@ export interface BaseRecord {
 }
 
 /* Collection type: auth */
-export interface User {
+export interface Users {
   email: string; // email
   emailVisibility?: boolean; // bool
   verified?: boolean; // bool
@@ -17,40 +17,4 @@ export interface User {
   avatar?: string; // file
 }
 
-export type UserRecord = User & BaseRecord;
-
-/* Collection type: base */
-export interface Changelog {
-  collection: string; // text
-  recordID: string; // text
-  field: string; // text
-  valueOld?: string; // text
-  valueNew: string; // text
-  changeType: "create" | "update" | "delete"; // select
-  changedBy?: string; // relation
-  reason?: string; // text
-}
-
-export type ChangelogRecord = Changelog & BaseRecord;
-
-/* Collection type: base */
-export interface Role {
-  name: string; // text
-  permissions?: string[]; // relation
-}
-
-export type RoleRecord = Role & BaseRecord;
-
-/* Collection type: base */
-export interface Permission {
-  name: string; // text
-  collections: any; // json
-  canView?: boolean; // bool
-  canList?: boolean; // bool
-  canCreate?: boolean; // bool
-  canUpdate?: boolean; // bool
-  canDelete?: boolean; // bool
-}
-
-export type PermissionRecord = Permission & BaseRecord;
-
+export type UsersRecord = Users & BaseRecord;

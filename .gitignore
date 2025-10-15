@@ -1,4 +1,4 @@
 
-dist/app
+dist/*
 pb_data/
 # .env
