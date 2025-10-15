@@ -1,6 +1,7 @@
 package main
 
 import (
+	"app/plugins/changelog"
 	"app/utils"
 	"embed"
 	"fmt"
@@ -28,6 +29,12 @@ func main() {
 
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Automigrate: env == "development",
+	})
+
+	changelog.Register(app, changelog.Config{
+		Collections: map[string][]string{
+			"users": {"name"},
+		},
 	})
 
 	if env == "development" {
