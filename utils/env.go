@@ -7,13 +7,13 @@ import (
 )
 
 type Config struct {
-	Env                     string
-	SuperuserName           string
-	SuperuserPassword       string
-	GithubOwner             string
-	GithubRepo              string
-	GithubArchiveExecutable string
-	GithubToken             string
+	Env               string
+	SuperuserName     string
+	SuperuserPassword string
+	GithubOwner       string
+	GithubRepo        string
+	ArchiveExecutable string
+	GithubToken       string
 }
 
 var Env Config = initConfig()
@@ -22,13 +22,13 @@ func initConfig() Config {
 	godotenv.Load()
 
 	return Config{
-		Env:                     getEnv("ENV", "production"),
-		SuperuserName:           getEnv("SUPERUSER_NAME", "admin@test.com"),
-		SuperuserPassword:       getEnv("SUPERUSER_PASSWORD", "1234567890"),
-		GithubOwner:             getEnv("GH_OWNER", ""),
-		GithubRepo:              getEnv("GH_REPO", ""),
-		GithubArchiveExecutable: getEnv("GH_ARCHIVE_EXECUTABLE", ""),
-		GithubToken:             getEnv("GH_TOKEN", ""),
+		Env:               getEnv("ENV", "production"),
+		SuperuserName:     getEnv("SUPERUSER_NAME", "admin@test.com"),
+		SuperuserPassword: getEnv("SUPERUSER_PASSWORD", "1234567890"),
+		GithubOwner:       getEnv("GH_OWNER", ""),
+		GithubRepo:        getEnv("GH_REPO", ""),
+		ArchiveExecutable: getEnv("ARCHIVE_EXECUTABLE", ""),
+		GithubToken:       getEnv("GH_TOKEN", ""),
 	}
 }
 

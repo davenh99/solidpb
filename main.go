@@ -7,10 +7,12 @@ import (
 	"embed"
 	"io/fs"
 	"log"
+	"net/http"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/plugins/ghupdate"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
 
@@ -23,11 +25,11 @@ var Version = "dev"
 var embeddedFiles embed.FS
 
 func main() {
-	env := utils.Env.Env
+	env := utils.Env
 	app := pocketbase.New()
 
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
-		Automigrate: env == "development",
+		Automigrate: env.Env == "development",
 	})
 
 	changelog.Register(app, changelog.Config{
@@ -36,8 +38,19 @@ func main() {
 		},
 	})
 
-	if env == "development" {
+	switch env.Env {
+	case "development":
 		gentypes.Register(app)
+	case "production":
+		ghupdate.MustRegister(app, app.RootCmd, ghupdate.Config{
+			Owner:             env.GithubOwner,
+			Repo:              env.GithubRepo,
+			ArchiveExecutable: env.ArchiveExecutable,
+			HttpClient: &utils.AuthClient{
+				Token: env.GithubToken,
+				Base:  http.DefaultClient,
+			},
+		})
 	}
 
 	// frontend
