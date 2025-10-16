@@ -2,9 +2,9 @@ package main
 
 import (
 	"app/plugins/changelog"
+	"app/plugins/gentypes"
 	"app/utils"
 	"embed"
-	"fmt"
 	"io/fs"
 	"log"
 
@@ -13,7 +13,6 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
-	"github.com/spf13/cobra"
 
 	_ "app/migrations"
 )
@@ -38,24 +37,7 @@ func main() {
 	})
 
 	if env == "development" {
-		app.RootCmd.AddCommand(&cobra.Command{
-			Use: "gen-types",
-			Run: func(cmd *cobra.Command, args []string) {
-				err := utils.GenerateTypes(app)
-				if err != nil {
-					fmt.Printf("error: %v\n", err)
-				}
-			},
-		})
-
-		app.OnCollectionAfterUpdateSuccess().BindFunc(func(e *core.CollectionEvent) error {
-			err := utils.GenerateTypes(app)
-			if err != nil {
-				return err
-			}
-
-			return e.Next()
-		})
+		gentypes.Register(app)
 	}
 
 	// frontend

@@ -60,4 +60,3 @@ export interface Permission {
 }
 
 export type PermissionRecord = Permission & BaseRecord;
-

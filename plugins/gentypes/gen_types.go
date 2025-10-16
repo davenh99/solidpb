@@ -1,4 +1,4 @@
-package utils
+package gentypes
 
 import (
 	"bytes"
@@ -10,9 +10,31 @@ import (
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/spf13/cobra"
 )
 
-func GenerateTypes(app *pocketbase.PocketBase) error {
+func Register(app *pocketbase.PocketBase) {
+	app.RootCmd.AddCommand(&cobra.Command{
+		Use: "gen-types",
+		Run: func(cmd *cobra.Command, args []string) {
+			err := generateTypes(app)
+			if err != nil {
+				fmt.Printf("error: %v\n", err)
+			}
+		},
+	})
+
+	app.OnCollectionAfterUpdateSuccess().BindFunc(func(e *core.CollectionEvent) error {
+		err := generateTypes(app)
+		if err != nil {
+			return err
+		}
+
+		return e.Next()
+	})
+}
+
+func generateTypes(app *pocketbase.PocketBase) error {
 	collections, err := app.FindAllCollections()
 	if err != nil {
 		return err
