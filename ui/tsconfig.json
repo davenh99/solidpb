@@ -12,5 +12,5 @@
     "isolatedModules": true,
     "strict": true
   },
-  "include": ["src", "types"]
+  "include": ["src", "types", "constants.ts"]
 }

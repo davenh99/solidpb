@@ -11,8 +11,10 @@ import AppLayout from "./views/app/AppLayout";
 import LoadFullScreen from "./views/app/LoadFullScreen";
 import SiteLayout from "./views/app/SiteLayout";
 import Dashboard from "./routes/Dashboard";
+import Unauthorised from "./routes/Unauthorised";
 import { Toaster } from "./config/toaster";
 import { Toast } from "./config/toaster/";
+import ProtectedRoute from "./config/role/ProtectedRoute";
 
 const NotFound = lazy(() => import("./routes/NotFound"));
 const Auth = lazy(() => import("./routes/Auth"));
@@ -72,7 +74,15 @@ function Content() {
 function App() {
   return (
     <Route path="/" component={AppLayout}>
-      <Route path="/" component={Dashboard} />
+      <Route
+        path="/"
+        component={() => (
+          <ProtectedRoute roles={["admin"]}>
+            <Dashboard />
+          </ProtectedRoute>
+        )}
+      />
+      <Route path="/unauthorized" component={Unauthorised} />
     </Route>
   );
 }

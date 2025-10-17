@@ -1,3 +1,4 @@
+export const EXPAND_USER = "role.permissions";
 export const DROP_ABOVE_CLASS = `
   relative 
   before:absolute 

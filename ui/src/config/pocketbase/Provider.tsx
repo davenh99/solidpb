@@ -3,7 +3,8 @@ import PocketBase, { ClientResponseError } from "pocketbase";
 import { createStore } from "solid-js/store";
 
 import { PBContext } from "./context";
-import { User } from "../../../Types";
+import { TUser } from "../../types";
+import { EXPAND_USER } from "../../../constants";
 
 const apiUrl =
   import.meta.env.VITE_PUBLIC_API_URL ||
@@ -14,20 +15,20 @@ const apiUrl =
 export const PBProvider: ParentComponent = (props) => {
   const pb = new PocketBase(apiUrl);
   const [pbStore, setPBStore] = createStore({
-    user: pb.authStore.record as unknown as User | null,
+    user: pb.authStore.record as TUser | null,
     loading: true,
     networkError: false,
   });
 
   pb.authStore.onChange(() => {
-    setPBStore("user", pb.authStore.record as unknown as User | null);
+    setPBStore("user", pb.authStore.record as TUser | null);
   });
 
   const checkAuth = async () => {
     if (pb.authStore.token) {
       if (pb.authStore.isValid) {
         try {
-          await pb.collection("users").authRefresh();
+          await pb.collection("users").authRefresh({ expand: EXPAND_USER });
           setPBStore("networkError", false);
         } catch (e) {
           if (e instanceof ClientResponseError && [401, 403].includes(e.status)) {

@@ -1,6 +1,7 @@
 import { useContext } from "solid-js";
 import { PBContext } from "./context";
 import { ClientResponseError } from "pocketbase";
+import { EXPAND_USER } from "../../../constants";
 
 const BaseSignUpData = {
   dob: "",
@@ -16,7 +17,7 @@ export function usePB() {
   const { pb } = context;
 
   const login = async (usernameOrEmail: string, password: string) => {
-    await pb.collection("users").authWithPassword(usernameOrEmail, password);
+    await pb.collection("users").authWithPassword(usernameOrEmail, password, { expand: EXPAND_USER });
   };
 
   const signUp = async (email: string, name: string, password: string, passwordConfirm: string) => {
@@ -32,6 +33,7 @@ export function usePB() {
     const authData = await pb.collection("users").authWithOAuth2({
       provider,
       createData: { ...BaseSignUpData, name: "user" },
+      query: { expand: EXPAND_USER },
     });
     // after succesful auth we can update the user with a different username from the authData
     if (authData.meta?.name) {
@@ -42,7 +44,7 @@ export function usePB() {
           formData.append("name", authData.meta.name);
         }
 
-        await pb.collection("users").update(authData.record.id, formData);
+        await pb.collection("users").update(authData.record.id, formData, { expand: EXPAND_USER });
       } catch (e: any) {
         alert(`${e}: ${e.originalError}`);
         alert("could not update name");
