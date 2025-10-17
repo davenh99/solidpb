@@ -1,6 +1,6 @@
 # solidpb
 
-A framework for creating progressive web applications using solidjs and pocketbase
+A framework for creating progressive web applications using solidjs and pocketbase.
 
 After cloning, you can paste in your app name into the following files:
 
@@ -8,12 +8,6 @@ After cloning, you can paste in your app name into the following files:
 - .env
 - ui/package.json
 - ui/public/manifest.json
-
-TODO:
-
-- custom pb hook for tracking changes to selected record fields. (changelog model, maybe add trackedFields field to each collection on create?) also, the hook should only fire once per record (obvs, unlike odoo), regardless of how many fields triggered it.
-- role-based routing guard?
-- add app 'update' command like pocketbase
 
 TODO components:
 

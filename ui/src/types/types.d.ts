@@ -1,3 +1,5 @@
 /* The rest of your app types */
+import type { Permission } from "./base";
 
-export type example = "option 1" | "option 2";
+// Stronger typed version of the auto-generated, as the auto generated doesn't know the type of json
+export type TPermission = Omit<Permission, "collections"> & { collections: string[] };
