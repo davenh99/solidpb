@@ -15,6 +15,7 @@ export interface User {
   verified?: boolean; // bool
   name?: string; // text
   avatar?: string; // file
+  role: string; // relation
 }
 
 export type UserRecord = User & BaseRecord;
@@ -60,3 +61,4 @@ export interface Permission {
 }
 
 export type PermissionRecord = Permission & BaseRecord;
+

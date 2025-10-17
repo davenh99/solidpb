@@ -703,6 +703,19 @@ func init() {
 						"type": "file"
 					},
 					{
+						"cascadeDelete": false,
+						"collectionId": "pbc_1885662682",
+						"hidden": false,
+						"id": "relation1466534506",
+						"maxSelect": 1,
+						"minSelect": 0,
+						"name": "role",
+						"presentable": false,
+						"required": true,
+						"system": false,
+						"type": "relation"
+					},
+					{
 						"hidden": false,
 						"id": "autodate2990389176",
 						"name": "created",

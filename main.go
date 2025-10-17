@@ -3,6 +3,7 @@ package main
 import (
 	"app/plugins/changelog"
 	"app/plugins/gentypes"
+	"app/plugins/roles"
 	"app/utils"
 	"embed"
 	"io/fs"
@@ -35,6 +36,17 @@ func main() {
 	changelog.Register(app, changelog.Config{
 		Collections: map[string][]string{
 			"users": {"name"},
+		},
+	})
+
+	roles.Register(app, roles.Config{
+		App: app,
+		SkipCollectionRules: map[string]*roles.SkipRules{
+			"user":          nil,
+			"changelog":     nil,
+			"changelogDiff": nil,
+			"role":          nil,
+			"permission":    nil,
 		},
 	})
 
