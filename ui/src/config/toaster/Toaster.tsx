@@ -7,7 +7,7 @@ export const Toaster: Component = () => {
     <Portal>
       <Toast.Region>
         <Toast.List
-          class={`z-99999 top-0 right-0 flex flex-col p-5 fixed gap-2 w-50
+          class={`z-99999 top-0 right-0 flex flex-col p-[var(--viewport-padding)] fixed gap-2 w-100
             max-w-[100vw] m-0 outline-none list-none`}
         />
       </Toast.Region>
