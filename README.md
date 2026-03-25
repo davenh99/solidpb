@@ -1,6 +1,6 @@
 # solidpb
 
-A framework for creating progressive web applications using solidjs and pocketbase.
+A template for creating progressive web applications using solidjs and pocketbase.
 
 After cloning, you can paste in your app name into the following files:
 
